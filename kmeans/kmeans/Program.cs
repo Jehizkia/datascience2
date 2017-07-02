@@ -10,7 +10,13 @@ namespace kmeans
     {
         static void Main(string[] args)
         {
-           
+            init();
+        }
+
+        public static void init()
+        {
+            Reader reader = new Reader();
+            Algorithm alg = new Algorithm(4, 50, reader.getCustomers());
         }
     }
 }
