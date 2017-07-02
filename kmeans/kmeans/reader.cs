@@ -19,7 +19,6 @@ namespace kmeans
 
         public void ReadFile()
         {
-
             try
             {
                 // Create an instance of StreamReader to read from a file.
@@ -49,8 +48,10 @@ namespace kmeans
 
         public void InsertUsers(string[] values)
         {
+            //Initializing the list of customers with the first value of each customer
             if (firstrun)
             {
+                //Inserts a customer
                 for (int i = 0; i < values.Length; i++)
                 {
                     Customer customer = new Customer();
@@ -60,6 +61,8 @@ namespace kmeans
 
                 firstrun = false;
             }
+
+            //after initialization the values will be added to the corresponding customer
             else
             {
                 for (int i = 0; i < values.Length; i++)
@@ -68,8 +71,12 @@ namespace kmeans
                 }
             }
 
-
-            Console.WriteLine();
         }
+
+        public List<Customer> getCustomers()
+        {
+            return listOfCustomers;
+        }
+
     }
 }
