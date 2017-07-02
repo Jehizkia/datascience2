@@ -10,7 +10,7 @@ namespace GeneticAlgorithm
     {
         static void Main(string[] args)
         {
-            //start
+            //start t
         }
     }
 }
