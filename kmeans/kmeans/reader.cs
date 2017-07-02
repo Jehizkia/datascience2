@@ -7,23 +7,35 @@ using System.Threading.Tasks;
 
 namespace kmeans
 {
-    class reader
+    class Reader
     {
+        List<Customer> listOfCustomers = new List<Customer>();
+        bool firstrun = true;
+
+        public Reader()
+        {
+            this.ReadFile();
+        }
+
         public void ReadFile()
         {
+
             try
             {
                 // Create an instance of StreamReader to read from a file.
                 // The using statement also closes the StreamReader.
-                using (StreamReader sr = new StreamReader("TestFile.txt"))
+                using (StreamReader sr = new StreamReader("C:/Users/Jehizkia/Documents/WineData.csv"))
                 {
                     string line;
                     // Read and display lines from the file until the end of 
                     // the file is reached.
+
                     while ((line = sr.ReadLine()) != null)
                     {
-                        Console.WriteLine(line);
+                        string[] values = line.Split(',');
+                        this.InsertUsers(values);
                     }
+
                 }
             }
             catch (Exception e)
@@ -33,6 +45,31 @@ namespace kmeans
                 Console.WriteLine(e.Message);
             }
 
+        }
+
+        public void InsertUsers(string[] values)
+        {
+            if (firstrun)
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    Customer customer = new Customer();
+                    customer.Add(Convert.ToDouble(values[i]));
+                    listOfCustomers.Add(customer);
+                }
+
+                firstrun = false;
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    listOfCustomers[i].Add(Convert.ToDouble(values[i]));
+                }
+            }
+
+
+            Console.WriteLine();
         }
     }
 }

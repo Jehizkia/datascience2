@@ -10,7 +10,12 @@ namespace kmeans
     {
         static void Main(string[] args)
         {
-           
+            init();
+        }
+
+        public static void init()
+        {
+            Reader reader = new Reader();
         }
     }
 }
