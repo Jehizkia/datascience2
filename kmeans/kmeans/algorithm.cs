@@ -43,6 +43,7 @@ namespace kmeans
 
         }
 
+        //This functions is called after a recomputation of a centroid. The customers will be removed from the centroid.
         public void clearCustomerListFromCentroids()
         {
             for (int i = 0; i < centroids.Count; i++)
@@ -82,8 +83,9 @@ namespace kmeans
                     distances.Add(x, distance.euclidean(customers[i], centroids[x]));
                 }
 
+                //This function takes the smallest distance and assigns it to a cluster
                 var order = distances.OrderBy(x => x.Value);
-                var last = order.Last();
+                var last = order.First();
 
                 centroids[last.Key].customerList.Add(customers[i]);
             }

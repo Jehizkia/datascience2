@@ -10,6 +10,8 @@ namespace kmeans
     {
         public List<Customer> customerList = new List<Customer>();
 
+
+        //Takes the mean of the customers and reasigns the points of the centroid
         public void updateCentroid()
         {
             Centroid newCentroid = new Centroid();
