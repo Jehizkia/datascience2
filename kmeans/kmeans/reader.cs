@@ -8,5 +8,6 @@ namespace kmeans
 {
     class reader
     {
+
     }
 }
