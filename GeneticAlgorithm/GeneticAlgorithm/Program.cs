@@ -10,7 +10,7 @@ namespace GeneticAlgorithm
     {
         static void Main(string[] args)
         {
-            //start t
+            GeneticAlgorithm GA = new GeneticAlgorithm(30, 1, 1, false, 5);
         }
     }
 }
