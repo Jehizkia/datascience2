@@ -28,8 +28,7 @@ namespace GeneticAlgorithm
             this.MutationRate = MutRate;
             this.Elitism = Eli;
             this.Iterations = Iterations;
-            start();
-            PrintPopulation();
+            start();            
         }
 
         public void start()
@@ -40,7 +39,7 @@ namespace GeneticAlgorithm
             {
                 generateNewPopulation();
             }
-
+            postProcess();
         }
 
         public void generateNewPopulation()
@@ -213,6 +212,35 @@ namespace GeneticAlgorithm
 
                 Console.WriteLine("===========");
             }
+        }
+
+        public void postProcess()
+        {
+            double sum_fitness = 0;
+            Individual theBestIndi = null;
+
+            foreach (var individual in Population)
+            {
+                sum_fitness += individual.fitness;
+
+                if (theBestIndi == null || theBestIndi.fitness < individual.fitness)
+                {
+                    theBestIndi = individual;
+                }
+
+            }
+
+
+            Console.WriteLine("Average Fitness Of last population: " + (sum_fitness / Population.Count));
+            Console.WriteLine("Best fitness: " + theBestIndi.fitness);
+            Console.WriteLine("Best Individual: ");
+
+            foreach (var item in theBestIndi)
+            {
+                Console.WriteLine(item);
+            }
+
+
         }
 
     }
