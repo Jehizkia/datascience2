@@ -14,13 +14,20 @@ namespace Forecasting
         public List<double> SES = new List<double>();
         public List<double> DES = new List<double>();
 
-        int forecast = 5;
+        public double[] bestSESData = new double[2];
+        public double[] bestDESData = new double[3];
+
+        int forecast = 11;
 
         public Forecast()
         {
-            calcSES();
-            calcDES();
-            SquaredErrors();
+            start();
+        }
+
+        public void start()
+        {
+            getBestSES();
+            getBestDES();
         }
 
         public void calcSES()
@@ -104,16 +111,92 @@ namespace Forecasting
 
         public double SSE_SES()
         {
-            double sum_SES = 0;        
+            double sum_SES = 0;
 
             for (int i = 0; i < read.dataset2.Count; i++)
             {
-                sum_SES += Math.Pow((SES[i] - read.dataset2[i]), 2);             
+                sum_SES += Math.Pow((SES[i] - read.dataset2[i]), 2);
             }
 
-            double SSE_SES = Math.Sqrt(sum_SES / (read.dataset2.Count - 1));          
+            double SSE_SES = Math.Sqrt(sum_SES / (read.dataset2.Count - 1));
 
-            return SSE_SES;  
+            return SSE_SES;
+        }
+
+        public double SSE_DES()
+        {
+            double sum_DES = 0;
+
+            for (int i = 0; i < read.dataset2.Count; i++)
+            {
+                sum_DES += Math.Pow((DES[i] - read.dataset2[i]), 2);
+            }
+            double SSE_DES = Math.Sqrt(sum_DES / (read.dataset2.Count - 2));
+
+            return SSE_DES;
+        }
+
+        public void getBestSES()
+        {
+            //SSE , Smoothingfactor
+            double[] bestSmoothingFactor = new double[2];
+
+            //used to get the smallest value
+            bestSmoothingFactor[0] = double.MaxValue;
+
+            //
+            for (double i = 0; i <= 1; i += 0.1)
+            {
+                SES = new List<double>();
+                smoothingFactor = i;
+                calcSES();
+                double currentSSE = SSE_SES();
+
+                if (currentSSE < bestSmoothingFactor[0])
+                {
+                    bestSmoothingFactor[0] = currentSSE;
+                    bestSmoothingFactor[1] = i;
+                }
+            }
+
+            //final 
+            smoothingFactor = bestSmoothingFactor[1];
+            bestSESData = bestSmoothingFactor;
+            SES = new List<double>();
+            calcSES();
+        }
+
+        public void getBestDES()
+        {
+            //SSE, SmoothingFactor, Trendfactor
+            double[] bestSmoothAndTrend = new double[3];
+            bestSmoothAndTrend[0] = double.MaxValue;
+
+            for (double i = 0; i < 1; i += 0.1)
+            {
+                for (double x = 0; x < 1; x += 0.1)
+                {
+                    DES = new List<double>();
+                    smoothingFactor = i;
+                    trendFactor = x;
+                    calcDES();
+                    double currentSSE = SSE_DES();
+
+                    if (currentSSE < bestSmoothAndTrend[0])
+                    {
+                        bestSmoothAndTrend[0] = currentSSE;
+                        bestSmoothAndTrend[1] = i;
+                        bestSmoothAndTrend[2] = x;
+                    }
+                }
+            }
+
+            //Final
+            smoothingFactor = bestSmoothAndTrend[1];
+            trendFactor = bestSmoothAndTrend[2];
+            bestDESData = bestSmoothAndTrend;
+            DES = new List<double>();
+            calcDES();
         }
     }
 }
