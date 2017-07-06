@@ -94,20 +94,20 @@ namespace Forecasting
 
         }
 
-        public void SquaredErrors()
-        {
-            double sum_SES = 0;
-            double sum_DES = 0;
+        //public void SquaredErrors()
+        //{
+        //    double sum_SES = 0;
+        //    double sum_DES = 0;
 
-            for (int i = 0; i < read.dataset2.Count; i++)
-            {
-                sum_SES += Math.Pow((SES[i] - read.dataset2[i]), 2);
-                sum_DES += Math.Pow((DES[i] - read.dataset2[i]), 2);
-            }
+        //    for (int i = 0; i < read.dataset2.Count; i++)
+        //    {
+        //        sum_SES += Math.Pow((SES[i] - read.dataset2[i]), 2);
+        //        sum_DES += Math.Pow((DES[i] - read.dataset2[i]), 2);
+        //    }
 
-            double SSE_SES = Math.Sqrt(sum_SES / (read.dataset2.Count - 1));
-            double SSE_DES = Math.Sqrt(sum_DES / (read.dataset2.Count - 2));
-        }
+        //    double SSE_SES = Math.Sqrt(sum_SES / (read.dataset2.Count - 1));
+        //    double SSE_DES = Math.Sqrt(sum_DES / (read.dataset2.Count - 2));
+        //}
 
         public double SSE_SES()
         {
@@ -144,7 +144,7 @@ namespace Forecasting
             //used to get the smallest value
             bestSmoothingFactor[0] = double.MaxValue;
 
-            //
+            
             for (double i = 0; i <= 1; i += 0.1)
             {
                 SES = new List<double>();

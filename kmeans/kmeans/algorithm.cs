@@ -13,6 +13,7 @@ namespace kmeans
         int customersize = 32;
         List<Customer> customers = new List<Customer>();
         List<Centroid> centroids = new List<Centroid>();
+        double bestSolutionFound = double.MaxValue;
 
         public Algorithm(int Kclusters, int Kiterations, List<Customer> listOfCustomers)
         {
@@ -27,6 +28,7 @@ namespace kmeans
         {
             intializeCentroids();
 
+            //Amount of iterations
             for (int i = 0; i < iterations; i++)
             {
                 assignCustomerToCentroid();
@@ -39,7 +41,8 @@ namespace kmeans
                     assignCustomerToCentroid();
                 }
             }
-            printClusters();
+
+            postProcess();
 
         }
 
@@ -73,11 +76,15 @@ namespace kmeans
         public void assignCustomerToCentroid()
         {
             Distance distance = new Distance();
+
+            //Each customer gets an cluster assigned
             for (int i = 0; i < customers.Count; i++)
             {
-                //List<double> distances = new List<double>();
+                //Distances are saved for each customer
                 Dictionary<int, double> distances = new Dictionary<int, double>();
 
+                //Distance is calculated for each centroid. 
+                //The centroid index and the actual distance are being saved
                 for (int x = 0; x < centroids.Count; x++)
                 {
                     distances.Add(x, distance.euclidean(customers[i], centroids[x]));
@@ -99,6 +106,9 @@ namespace kmeans
             }
         }
 
+        //Sum of the squares of the error of each point.  
+        //Error of a point = distance to the nearest cluster center
+
         public void SSE()
         {
             double sumSquaredOfError = 0;
@@ -113,7 +123,11 @@ namespace kmeans
                 }
             }
 
-            Console.WriteLine("SSE: " + sumSquaredOfError);
+            if(sumSquaredOfError < bestSolutionFound)
+            {
+                bestSolutionFound = sumSquaredOfError;
+            }
+            //Console.WriteLine("SSE: " + sumSquaredOfError);
         }
 
         public void displayCentroids()
@@ -131,16 +145,70 @@ namespace kmeans
             int count = 0;
             for (int i = 0; i < centroids.Count; i++)
             {
-                Console.WriteLine("================ Cluster " + i + "=============");
+                Console.WriteLine(" ");
+                Console.WriteLine("======.:|| Cluster " + i + "||:.======" + centroids[i].customerList.Count);
                 for (int x = 0; x < centroids[i].customerList.Count; x++)
                 {
                     count++;
+                
+                    foreach (var item in centroids[i].customerList[x])
+                    {
+                        Console.Write(item);
+                    }
+                    Console.WriteLine();
+                }               
+            }        
+        }
+
+        public void postProcess()
+        {
+
+            Console.WriteLine("Best solution: " + bestSolutionFound);
+            Console.WriteLine("");
+            Console.WriteLine("=========.:[CLUSTERS]:.=========");
+            printClusters();
+
+            //post process the clusters
+            Console.WriteLine("");
+            Console.WriteLine("=========.:[RESULTS]:.=========");
+
+
+            int centroidCount = 0;
+            foreach (var centroid in centroids)
+            {
+                int[] offers = new int[centroid.Count];
+
+                Console.WriteLine("");
+                Console.WriteLine("=========.:[Cluster " + centroidCount +"]:.=========");
+                foreach (var customer in centroid.customerList)
+                {
+                    int itemCount = 0;
+                    foreach (var item in customer)
+                    {
+                        if(item == 1)
+                        {
+                            offers[itemCount]++;
+                        }
+
+                        itemCount++;
+                    }
                 }
 
-                Console.WriteLine(centroids[i].customerList.Count);
-            }
+                for (int i = 0; i < offers.Length; i++)
+                {                    
 
-            Console.WriteLine(count);
+                    if(offers[i] > 1)
+                    {
+                        Console.WriteLine("Offer " + i + " -> bought " + offers[i] + " times");
+                    } else if (offers[i] == 1)
+                    {
+                        Console.WriteLine("Offer " + i + " -> bought " + offers[i] + " time");
+                    }
+
+                }
+
+                centroidCount++;
+            } 
         }
     }
 }

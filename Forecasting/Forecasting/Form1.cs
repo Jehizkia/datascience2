@@ -47,8 +47,9 @@ namespace Forecasting
                 this.chart1.Series["DES"].Points.Add(item);
             }
 
-            this.bestValSES.Text = "Best Smoothing factor: " + fc.bestSESData[1] + " SSE: " + fc.bestSESData[0];
-            this.bestValDES.Text = "Best Smoothing factor: " + fc.bestDESData[1] + " Trend factor: " + fc.bestDESData[2] + " SSE: " + fc.bestDESData[0];
+            //Important data
+            this.bestValSES.Text = "SES| best Smoothing factor: " + fc.bestSESData[1] + " SSE: " + fc.bestSESData[0];
+            this.bestValDES.Text = "DES| best Smoothing factor: " + fc.bestDESData[1] + " Trend factor: " + fc.bestDESData[2] + " SSE: " + fc.bestDESData[0];
         }
 
         private void Form1_Load(object sender, EventArgs e)

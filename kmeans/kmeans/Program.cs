@@ -16,7 +16,7 @@ namespace kmeans
         public static void init()
         {
             Reader reader = new Reader();
-            Algorithm alg = new Algorithm(4, 50, reader.getCustomers());
+            Algorithm alg = new Algorithm(4, 200, reader.getCustomers());
         }
     }
 }
