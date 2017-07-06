@@ -62,7 +62,7 @@ namespace kmeans
                 firstrun = false;
             }
 
-            //after initialization the values will be added to the corresponding customer
+            //After initialization the values will be added to the corresponding customer
             else
             {
                 for (int i = 0; i < values.Length; i++)

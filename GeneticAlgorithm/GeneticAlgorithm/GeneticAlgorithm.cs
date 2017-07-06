@@ -103,7 +103,7 @@ namespace GeneticAlgorithm
         }
 
 
-        //Generates the populationd
+        //Create an initial population of 𝑛 individuals
         public void InitialPopulation()
         {
             for (int i = 0; i < PopulationSize; i++)
@@ -119,16 +119,17 @@ namespace GeneticAlgorithm
             }
         }
 
+        // Place new offspring in the new population 
         public void AcceptNewPopulation()
         {
             Population = newPopulation;
             newPopulation = new List<Individual>();
         }
 
+        //Select two parent from the population according to their fitness (the better fitness, the bigger chance to be selected for reproduction) 
         public Individual TournamentSelection()
         {
             Individual best = null;
-
 
             for (int i = 1; i < 5; i++)
             {
@@ -143,6 +144,7 @@ namespace GeneticAlgorithm
             return best;
         }
 
+        //With a crossover probability, cross over the parents to form new offspring (children); if no crossover was performed, offspring is an exact copy of parents 
         public void Crossover(Individual parent1, Individual parent2)
         {
             Individual child1 = new Individual();
@@ -177,6 +179,8 @@ namespace GeneticAlgorithm
             }
         }
 
+
+        //With a mutation probability, mutate information encoded by new offspring 
         public void mutation()
         {
             for (int i = 0; i < Population.Count; i++)
@@ -198,8 +202,6 @@ namespace GeneticAlgorithm
                 }
             }
         }
-
-
 
         public void PrintPopulation()
         {
@@ -229,7 +231,6 @@ namespace GeneticAlgorithm
                 }
 
             }
-
 
             Console.WriteLine("Average Fitness Of last population: " + (sum_fitness / Population.Count));
             Console.WriteLine("Best fitness: " + theBestIndi.fitness);
